@@ -1,0 +1,22 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include "mymem.h"
+
+int main(int argc, char *argv[])
+{
+  void *init = Mem_Init(128, 10);
+  void *mall1 = Mem_Alloc(10);
+    void *mall2 = Mem_Alloc(11); 
+  int free1 = Mem_Free(mall1);
+    int free2 = Mem_Free(mall2);  
+    Mem_Free(mall2);//double free
+void *mall16 = Mem_Alloc(16);
+
+  printf("init:%p alloc:%p free:%d\n", init, mall1,free1);
+   printf("init:%p alloc:%p free:%d\n", init, mall2,free2);
+   printf("alloc16:%p\n", mall16);
+  printf("hey!\n");
+  fflush(stdout);
+  Mem_Dump();
+  return 0;
+}
