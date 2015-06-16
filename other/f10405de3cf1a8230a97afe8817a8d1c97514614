@@ -1,9 +1,0 @@
-all:
-	gcc -c -fpic mem.c -Wall 
-	gcc -shared -o libmem.so mem.o
-	gcc -lmem -L. -lm -o test test.c -Wall 
-clean:
-	rm -f libmem.so *.o
-
-export LD_LIBRARY_PATH=$(pwd)
-
