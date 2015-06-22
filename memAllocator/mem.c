@@ -5,7 +5,7 @@
 #include "mymem.h"
 #include <pthread.h>
 
-//heads of two free lists, should allocate to prescribed region?
+//heads of two free lists
 void *slabFreeHeader ; //head of slab free list
 struct FreeHeader *nextFreeHeader ;//head of nextfit free list
 int init = 0; //number of times mem_init has been called
@@ -137,8 +137,6 @@ void *nextA(int s)
   struct AllocatedHeader *ret = (struct AllocatedHeader*)looping;
   ret->length = size;
   ret->magic = MAGIC;
-  //new nextFreeHeader 
-  //nextFreeHeader = (struct FreeHeader *)((char*)nextFreeHeader + size + sizeof(struct FreeHeader)); 
   return ((char*)ret + sizeof(struct AllocatedHeader));
 }
 
@@ -220,8 +218,7 @@ int Mem_Free(void *ptr)
 	{ pthread_mutex_unlock(&foo_mutex);
         return -1;
 	}
-      //if(*ptr11 != NULL && (*ptr11 > middle || *ptr11 < begin)) //invalid slab region to free      	
-//find the previous and next free regions; update slabFreeHeader      
+     	//find the previous and next free regions; update slabFreeHeader      
       void **ptr1 = (void**)ptr;      
       if (slabFreeHeader > ptr || slabFreeHeader == middle || slabFreeHeader==NULL) //ptr is foremost being freed
 	{
